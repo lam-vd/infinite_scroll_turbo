@@ -8,7 +8,9 @@
     <%= link_to "New post", new_post_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
   </div>
 
-  <div id="posts" class="min-w-full">
-    <%= render @posts %>
-  </div>
+    <%= turbo_frame_tag "posts", src: posts_path(format: :turbo_stream), loading: "lazy" %>
+
+    <% if @posts.next_page %>
+      <%= turbo_frame_tag "load_more", src: posts_path(page: @posts.next_page, format: :turbo_stream), loading: "lazy" %>
+    <% end %>
 </div>
